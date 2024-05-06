@@ -1,0 +1,17 @@
+<body>
+  <h1>Thread: {{ .thread.Name }}</h1>
+    <table>
+      <tr>
+        <th>Text</th>
+        <th>User</th>
+        <th>DateTime</th>
+      </tr>
+      {{ range .posts}}
+        <tr>
+          <td>{{ .Content }}</td>
+          <td>{{ .User.Name }}</td>
+          <td>{{ .PostTime.Format "02 Jan 2006 15:04:05 UTC" }}</td>
+        </tr>
+      {{ end }}
+    </table>
+</body>
