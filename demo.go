@@ -10,7 +10,7 @@ func setupDemoData() {
 			JoinDate: time.Now(),
 			AuthDetails: Auth{
 				Email:    "andrew@forum.com",
-				Password: "hashedPassword",
+				Password: []byte("$2a$10$8OloFa6fM5Ln0MJBcIdTPuEW.Z8RP58xsqnvsAIJLKYBT6rFABb.O"),
 				IsAdmin:  true,
 			},
 		},
@@ -20,7 +20,17 @@ func setupDemoData() {
 			JoinDate: time.Now(),
 			AuthDetails: Auth{
 				Email:    "stephen@forum.com",
-				Password: "hashedPassword",
+				Password: []byte("$2a$10$8OloFa6fM5Ln0MJBcIdTPuEW.Z8RP58xsqnvsAIJLKYBT6rFABb.O"),
+				IsAdmin:  true,
+			},
+		},
+		{
+			Id:       3,
+			Name:     "Beans",
+			JoinDate: time.Now(),
+			AuthDetails: Auth{
+				Email:    "beans@beansmail.com",
+				Password: []byte("$2a$10$8OloFa6fM5Ln0MJBcIdTPuEW.Z8RP58xsqnvsAIJLKYBT6rFABb.O"),
 				IsAdmin:  true,
 			},
 		},

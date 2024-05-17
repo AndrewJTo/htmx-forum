@@ -45,7 +45,7 @@ type User struct {
 
 type Auth struct {
 	Email     string
-	Password  string
+	Password  []byte
 	IsAdmin   bool
 	BanExpire time.Time
 }
