@@ -9,8 +9,9 @@ func setupDemoData() {
 			Name:     "Andrew",
 			JoinDate: time.Now(),
 			AuthDetails: Auth{
-				Email:    "andrew@forum.com",
-				Password: []byte("$2a$10$8OloFa6fM5Ln0MJBcIdTPuEW.Z8RP58xsqnvsAIJLKYBT6rFABb.O"),
+				Email: "andrew@forum.com",
+				// asdf12345
+				Password: []byte("$2a$10$GY4Bg4xLDtOfWv2fVCKxA.jg4j/hDuzjOwPVl9jMYjsv.XcLDT2dq"),
 				IsAdmin:  true,
 			},
 		},
@@ -19,8 +20,9 @@ func setupDemoData() {
 			Name:     "Stephen",
 			JoinDate: time.Now(),
 			AuthDetails: Auth{
-				Email:    "stephen@forum.com",
-				Password: []byte("$2a$10$8OloFa6fM5Ln0MJBcIdTPuEW.Z8RP58xsqnvsAIJLKYBT6rFABb.O"),
+				Email: "stephen@forum.com",
+				// asdf12345
+				Password: []byte("$2a$10$GY4Bg4xLDtOfWv2fVCKxA.jg4j/hDuzjOwPVl9jMYjsv.XcLDT2dq"),
 				IsAdmin:  true,
 			},
 		},
@@ -29,8 +31,9 @@ func setupDemoData() {
 			Name:     "Beans",
 			JoinDate: time.Now(),
 			AuthDetails: Auth{
-				Email:    "beans@beansmail.com",
-				Password: []byte("$2a$10$8OloFa6fM5Ln0MJBcIdTPuEW.Z8RP58xsqnvsAIJLKYBT6rFABb.O"),
+				Email: "beans@beansmail.com",
+				// asdf12345
+				Password: []byte("$2a$10$GY4Bg4xLDtOfWv2fVCKxA.jg4j/hDuzjOwPVl9jMYjsv.XcLDT2dq"),
 				IsAdmin:  true,
 			},
 		},

@@ -1,15 +1,4 @@
-<html>
-  <head>
-    <script src="/htmx.min.js.js"></script>
-  </head>
-  <body>
-    <h1>Forum</h1>
-    {{ if not .user }}
-      <p><a hx-get="register" hx-target="body" hx-push-url="true">Register</a></p>
-      <p><a hx-get="login" hx-target="body" hx-push-url="true">Login</a></p>
-    {{ else }}
-      <p>{{ .user.Name }}</p>
-    {{ end }}
+{{ template "top" .user }}
     <table>
       <tr>
         <th>Name</th>
@@ -24,5 +13,4 @@
         </tr>
       {{ end }}
     </table>
-  </body>
-</html>
+{{ template "bottom" }}

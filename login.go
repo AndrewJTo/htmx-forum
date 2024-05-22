@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -50,6 +51,7 @@ func loginHandler(r *gin.RouterGroup) {
 
 		session := sessions.Default(c)
 		session.Set("user", user)
+		fmt.Println(user)
 		session.Save()
 
 		c.Header("HX-Redirect", "/")

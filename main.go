@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/gob"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -14,6 +16,7 @@ func main() {
 	setupDemoData()
 
 	// Todo: Setup redis sessions here
+	gob.Register(&User{})
 	store := cookie.NewStore([]byte("secret"))
 	app.Use(sessions.Sessions("forumsession", store))
 
@@ -27,7 +30,18 @@ func main() {
 	router.StaticFile("/htmx.min.js.js", "./assets/htmx.min.js.js")
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{"categories": &cat})
+		session := sessions.Default(c)
+		user := session.Get(("user"))
+		fmt.Println("asdf")
+		fmt.Println(user)
+		if user != nil {
+			fmt.Println(user)
+		} else {
+			fmt.Println("Not logged in")
+		}
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{"categories": &cat,
+			"user": user,
+		})
 	})
 
 	app.Run()

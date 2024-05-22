@@ -1,0 +1,19 @@
+{{ define "top" }}
+<html>
+  <head>
+    <script src="/htmx.min.js.js"></script>
+  </head>
+  <body>
+    <h1>Forum</h1>
+    {{ if not . }}
+      <p><a hx-get="register" hx-target="body" hx-push-url="true">Register</a></p>
+      <p><a hx-get="login" hx-target="body" hx-push-url="true">Login</a></p>
+    {{ else }}
+      <p>{{ .Name }}</p>
+    {{ end }}
+{{ end }}
+
+{{ define "bottom" }}
+  </body>
+</html>
+{{ end }}
