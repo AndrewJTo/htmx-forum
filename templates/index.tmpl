@@ -9,7 +9,7 @@
         <tr>
           <td>{{ .Name }}</td>
           <td>{{ .Description }}</td>
-          <td><button hx-get="/category/{{.Id}}" hx-target="body" hx-push-url="true">View</button></td> 
+          <td><button hx-get="/category/{{.Id}}" hx-target="main" hx-push-url="true">View</button></td> 
         </tr>
       {{ end }}
     </table>

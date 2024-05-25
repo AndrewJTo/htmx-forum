@@ -26,6 +26,7 @@ func main() {
 	threadHandlers(router)
 	categoryHandler(router)
 	loginHandler(router)
+	logoutHandler(router)
 
 	router.StaticFile("/htmx.min.js.js", "./assets/htmx.min.js.js")
 

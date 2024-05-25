@@ -5,15 +5,19 @@
   </head>
   <body>
     <h1>Forum</h1>
-    {{ if not . }}
-      <p><a hx-get="register" hx-target="body" hx-push-url="true">Register</a></p>
-      <p><a hx-get="login" hx-target="body" hx-push-url="true">Login</a></p>
-    {{ else }}
-      <p>{{ .Name }}</p>
-    {{ end }}
+      <div id="login-options">
+      {{ if not . }}
+        <p><a hx-get="register" hx-target="#login-options" hx-push-url="true">Register</a></p>
+        <p><a hx-get="login" hx-target="#login-options" hx-push-url="true">Login</a></p>
+      {{ else }}
+        <p>{{ .Name }} (<a hx-post="logout" hx-target="body">logout</a>)</p>
+      {{ end }}
+      </div>
+    <main>
 {{ end }}
 
 {{ define "bottom" }}
+    </main>
   </body>
 </html>
 {{ end }}

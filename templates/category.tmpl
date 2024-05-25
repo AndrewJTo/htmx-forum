@@ -1,4 +1,4 @@
-<body>
+{{ template "top" .user }}
   <h1>
   <h1>Category: {{ .Name }}</h1>
     <table>
@@ -9,8 +9,8 @@
       {{ range .threads}}
         <tr>
           <td>{{ .Name }}</td>
-          <td><button hx-get="/thread/{{.Id}}" hx-target="body" hx-push-url="true">View</button></td> 
+          <td><button hx-get="/thread/{{.Id}}" hx-target="main" hx-push-url="true">View</button></td> 
         </tr>
       {{ end }}
     </table>
-</body>
+{{ template "bottom" }}
