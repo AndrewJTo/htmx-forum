@@ -40,7 +40,7 @@ func main() {
 		} else {
 			fmt.Println("Not logged in")
 		}
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{"categories": &cat,
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{"categories": &cats,
 			"user": user,
 		})
 	})

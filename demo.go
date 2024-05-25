@@ -39,7 +39,7 @@ func setupDemoData() {
 		},
 	}
 
-	cat = []Category{
+	cats = []Category{
 		{
 			Id:          1,
 			Name:        "General",

@@ -1,0 +1,10 @@
+<td>
+  <input name="category-name" type="text" />
+</td>
+<td>
+  <input name="category-description" type="text" />
+</td>
+<td>
+  <button hx-post="/category/" hx-target="main" hx-include="closest tr">Add</button>
+  <button hx-get="/" hx-target="body">Cancel</button>
+</td>

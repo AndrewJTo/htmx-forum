@@ -2,7 +2,7 @@ package main
 
 import "time"
 
-var cat []Category
+var cats []Category
 
 type Category struct {
 	Id          int
