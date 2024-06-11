@@ -1,20 +1,10 @@
-package main
+package apis
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-func findCategoryByName(categoryName string) (Category, error) {
-	for _, c := range cats {
-		if c.Name == categoryName {
-			return c, nil
-		}
-	}
-	return Category{}, errors.New("Category not found")
-}
 
 func categoryHandler(r *gin.RouterGroup) {
 	categoryRouter := r.Group("/category")

@@ -1,9 +1,13 @@
-package main
+package migrations
 
-import "time"
+import (
+	"time"
+
+	"github.com/AndrewJTo/htmx-forum/models"
+)
 
 func setupDemoData() {
-	users = []User{
+	daos. = []models.User{
 		{
 			Id:       1,
 			Name:     "Andrew",
