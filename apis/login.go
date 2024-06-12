@@ -1,25 +1,16 @@
-package main
+package apis
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 
+	"github.com/AndrewJTo/htmx-forum/daos"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func findUser(email string) (User, error) {
-	for _, u := range users {
-		if u.AuthDetails.Email == email {
-			return u, nil
-		}
-	}
-	return User{}, errors.New("User not found")
-}
-
-func loginHandler(r *gin.RouterGroup) {
+func LoginHandler(r *gin.RouterGroup) {
 	registerRouter := r.Group("/login")
 
 	registerRouter.GET("/", func(c *gin.Context) {
@@ -36,13 +27,13 @@ func loginHandler(r *gin.RouterGroup) {
 			c.String(http.StatusBadRequest, "Please enter email and password!")
 			return
 		}
-		user, err := findUser(email)
+		user, err := daos.FindUserByEmail(email)
 		if err != nil {
 			c.String(http.StatusNotFound, "User with that email does not exist")
 			return
 		}
 
-		err = bcrypt.CompareHashAndPassword([]byte(user.AuthDetails.Password), password)
+		err = bcrypt.CompareHashAndPassword([]byte(user.Password), password)
 
 		if err != nil {
 			c.String(http.StatusBadRequest, "Invalid password!")

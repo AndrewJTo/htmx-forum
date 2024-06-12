@@ -1,4 +1,4 @@
-package main
+package apis
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func logoutHandler(r *gin.RouterGroup) {
+func LogoutHandler(r *gin.RouterGroup) {
 	logoutRouter := r.Group("/logout")
 
 	logoutRouter.POST("/", func(c *gin.Context) {

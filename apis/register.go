@@ -1,14 +1,16 @@
-package main
+package apis
 
 import (
 	"net/http"
 	"time"
 
+	"github.com/AndrewJTo/htmx-forum/daos"
+	"github.com/AndrewJTo/htmx-forum/models"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func registerHandler(r *gin.RouterGroup) {
+func RegisterHandler(r *gin.RouterGroup) {
 	registerRouter := r.Group("/register")
 
 	registerRouter.GET("/", func(c *gin.Context) {
@@ -28,14 +30,12 @@ func registerHandler(r *gin.RouterGroup) {
 			c.String(http.StatusBadRequest, "Invalid password!")
 			return
 		}
-		users = append(users, User{
+		daos.CreateUser(models.User{
 			Id:       1,
 			Name:     "testUser",
 			JoinDate: time.Now(),
-			AuthDetails: Auth{
-				Email:    email,
-				Password: hashedPassword,
-			},
+			Email:    email,
+			Password: hashedPassword,
 		})
 		c.Header("HX-Push-Url", "/login")
 		c.HTML(http.StatusOK, "login.tmpl", gin.H{

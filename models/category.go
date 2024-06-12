@@ -6,8 +6,8 @@ type Category struct {
 	Id          int
 	Name        string
 	Description string
-	Parent      int
+	ParentId    int
 	Icon        int
-	User        User
+	UserId      int
 	PostTime    time.Time
 }

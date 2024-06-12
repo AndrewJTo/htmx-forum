@@ -5,7 +5,7 @@ import "time"
 type Post struct {
 	Id       int
 	Content  string
-	Thread   int
-	User     User
+	ThreadId int
+	UserId   int
 	PostTime time.Time
 }

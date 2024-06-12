@@ -3,10 +3,12 @@ package apis
 import (
 	"net/http"
 
+	"github.com/AndrewJTo/htmx-forum/daos"
+	"github.com/AndrewJTo/htmx-forum/models"
 	"github.com/gin-gonic/gin"
 )
 
-func categoryHandler(r *gin.RouterGroup) {
+func CategoryHandler(r *gin.RouterGroup) {
 	categoryRouter := r.Group("/category")
 
 	categoryRouter.POST("/", AuthRequired, func(c *gin.Context) {
@@ -20,13 +22,14 @@ func categoryHandler(r *gin.RouterGroup) {
 		}
 
 		// Check if category name exists
-		_, err := findCategoryByName(categoryName)
+		_, err := daos.FindCategoryByName(categoryName)
 		if err == nil {
 			c.String(http.StatusBadRequest, "Category with this name already exists")
 			return
 		}
 
-		cats = append(cats, Category{Name: categoryName, Description: categoryDescription})
+		daos.CreateCategory(models.Category{Name: categoryName, Description: categoryDescription})
+
 		c.Header("HX-Redirect", "/")
 		c.String(http.StatusOK, "Category created!")
 	})
@@ -36,8 +39,21 @@ func categoryHandler(r *gin.RouterGroup) {
 	})
 
 	categoryRouter.GET("/:category_id", func(c *gin.Context) {
+		cat, err := daos.FindCategoryById(c.GetInt("category_id"))
+
+		if err != nil {
+			c.String(http.StatusNotFound, "Category not found!")
+			return
+		}
+
+		threads, err := daos.GetCategoryThreads(&cat)
+		if err != nil {
+			c.String(http.StatusInternalServerError, "Could not list threads")
+			return
+		}
+
 		c.HTML(http.StatusOK, "category.tmpl", gin.H{
-			"category": cats[0], "threads": &threads,
+			"category": &cat, "threads": &threads,
 		})
 	})
 }
