@@ -1,9 +1,14 @@
 package core
 
 import (
+	"context"
+	"database/sql"
 	"encoding/gob"
 	"fmt"
+	"log/slog"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/AndrewJTo/htmx-forum/apis"
 	"github.com/AndrewJTo/htmx-forum/daos"
@@ -12,10 +17,26 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+	dbx "github.com/go-ozzo/ozzo-dbx"
+	_ "modernc.org/sqlite"
 )
 
 func RunServer() {
-	app := gin.Default()
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil)).With("version", "0.0.1")
+
+	db, err := dbx.MustOpen("sqlite", "sqlite::memory:")
+	if err != nil {
+		os.Exit(-1)
+	}
+	db.QueryLogFunc = logDBQuery(logger)
+	db.ExecLogFunc = logDBExec(logger)
+	defer func() {
+		if err := db.Close(); err != nil {
+			logger.Error(err.Error())
+		}
+	}()
+
+	app := gin.New()
 	app.LoadHTMLGlob("templates/*")
 	migrations.SetupDemoData()
 
@@ -56,4 +77,26 @@ func RunServer() {
 	})
 
 	app.Run()
+}
+
+// logDBQuery returns a logging function that can be used to log SQL queries.
+func logDBQuery(logger *slog.Logger) dbx.QueryLogFunc {
+	return func(ctx context.Context, t time.Duration, sql string, rows *sql.Rows, err error) {
+		if err == nil {
+			logger.With(ctx, "duration", t.Milliseconds(), "sql", sql).Info("DB query successful")
+		} else {
+			logger.With(ctx, "sql", sql).Error("DB query error: %v", err)
+		}
+	}
+}
+
+// logDBExec returns a logging function that can be used to log SQL executions.
+func logDBExec(logger *slog.Logger) dbx.ExecLogFunc {
+	return func(ctx context.Context, t time.Duration, sql string, result sql.Result, err error) {
+		if err == nil {
+			logger.With(ctx, "duration", t.Milliseconds(), "sql", sql).Info("DB execution successful")
+		} else {
+			logger.With(ctx, "sql", sql).Error("DB execution error: %v", err)
+		}
+	}
 }
