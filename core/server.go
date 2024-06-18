@@ -24,12 +24,14 @@ import (
 func RunServer() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil)).With("version", "0.0.1")
 
-	db, err := dbx.MustOpen("sqlite", "sqlite::memory:")
+	db, err := dbx.MustOpen("sqlite", "dev.db")
 	if err != nil {
 		os.Exit(-1)
 	}
 	db.QueryLogFunc = logDBQuery(logger)
 	db.ExecLogFunc = logDBExec(logger)
+	migrations.Migrate(db)
+
 	defer func() {
 		if err := db.Close(); err != nil {
 			logger.Error(err.Error())
@@ -38,7 +40,6 @@ func RunServer() {
 
 	app := gin.New()
 	app.LoadHTMLGlob("templates/*")
-	migrations.SetupDemoData()
 
 	// Todo: Setup redis sessions here
 	gob.Register(&models.User{})
