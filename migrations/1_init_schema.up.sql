@@ -1,6 +1,5 @@
--- Active: 1719348603208@@127.0.0.1@3306
-CREATE TABLE user (
-    id          INTEGER         PRIMARY KEY         AUTOINCREMENT,
+CREATE TABLE users (
+    id          SERIAL          PRIMARY KEY,
     email       VARCHAR(255)    NOT NULL,
     name        VARCHAR(255)    NOT NULL,
     password    VARCHAR(255)    NOT NULL,
@@ -10,19 +9,18 @@ CREATE TABLE user (
 );
 
 CREATE TABLE category (
-    id              INTEGER         AUTOINCREMENT,
+    id              SERIAL          PRIMARY KEY,
     name            VARCHAR(255)    NOT NULL,
-    parent_id       INTEGER         DEFAULT NULL,
+    parent_id       INTEGER         REFERENCES category,
     description     TEXT            DEFAULT NULL,
-    image_id        INTEGER         DEFAULT NULL,
-    creator_user_id INTEGER         DEFAULT NULL,
+    image_id        INTEGER         REFERENCES images,
+    creator_user_id INTEGER         REFERENCES users,
     created_at      DATE            NOT NULL
-    PRIMARY KEY (id),
-    FOREIGN KEY (creator_user_id) REFERENCES user (id)
+    -- FOREIGN KEY (creator_user_id) REFERENCES user (id)
 );
 
 CREATE TABLE thread (
-    id              INTEGER         PRIMARY KEY         AUTOINCREMENT,
+    id              SERIAL          PRIMARY KEY,
     name            VARCHAR(255)    NOT NULL,
     category_id     INTEGER         DEFAULT NULL,
     creator_user_id INTEGER         DEFAULT NULL,
@@ -30,7 +28,7 @@ CREATE TABLE thread (
 );
 
 CREATE TABLE post (
-    id              INTEGER         PRIMARY KEY         AUTOINCREMENT,
+    id              SERIAL          PRIMARY KEY,
     thread_id       INTEGER         DEFAULT NULL,
     creator_user_id INTEGER         DEFAULT NULL,
     image_id        INTEGER         DEFAULT NULL,
@@ -39,7 +37,7 @@ CREATE TABLE post (
 );
 
 CREATE TABLE image (
-    id              INTEGER         PRIMARY KEY         AUTOINCREMENT,
+    id              SERIAL          PRIMARY KEY,
     creator_user_id INTEGER         DEFAULT NULL,
     created_at      DATE            NOT NULL
 );
