@@ -1,9 +1,8 @@
-DROP TABLE users;
+DROP TABLE post;
+DROP TABLE thread;
 
 DROP TABLE category;
 
-DROP TABLE thread;
-
-DROP TABLE post;
-
 DROP TABLE image;
+
+DROP TABLE users;

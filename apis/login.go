@@ -4,13 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/AndrewJTo/htmx-forum/daos"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func LoginHandler(r *gin.RouterGroup) {
+func loginHandler(r *gin.RouterGroup, env *Env) {
 	registerRouter := r.Group("/login")
 
 	registerRouter.GET("/", func(c *gin.Context) {
@@ -27,11 +26,13 @@ func LoginHandler(r *gin.RouterGroup) {
 			c.String(http.StatusBadRequest, "Please enter email and password!")
 			return
 		}
-		user, err := daos.FindUserByEmail(email)
+		user, err := env.Dao.GetUserByEmail(email)
 		if err != nil {
 			c.String(http.StatusNotFound, "User with that email does not exist")
 			return
 		}
+
+		env.Dao.GetUserPassword(user)
 
 		err = bcrypt.CompareHashAndPassword([]byte(user.Password), password)
 

@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AuthRequired(c *gin.Context) {
+func authRequired(c *gin.Context) {
 	session := sessions.Default(c)
 	user := session.Get(("user"))
 	if user == nil {

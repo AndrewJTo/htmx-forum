@@ -9,7 +9,7 @@
       {{ range .threads}}
         <tr>
           <td>{{ .Name }}</td>
-          <td><button hx-get="/thread/{{.Id}}" hx-target="main" hx-push-url="true">View</button></td> 
+          <td><button hx-get="/thread/{{.ID}}" hx-target="main" hx-push-url="true">View</button></td> 
         </tr>
       {{ end }}
     </table>

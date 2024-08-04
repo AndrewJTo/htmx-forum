@@ -1,44 +1,97 @@
 package daos
 
 import (
-	"errors"
+	"time"
 
-	"github.com/AndrewJTo/htmx-forum/models"
+	"github.com/AndrewJTo/htmx-forum/.gen/andrew/public/model"
+	"github.com/AndrewJTo/htmx-forum/.gen/andrew/public/table"
+	"github.com/go-jet/jet/v2/postgres"
 )
 
-func FindCategoryByName(categoryName string) (models.Category, error) {
-	for _, c := range cats {
-		if c.Name == categoryName {
-			return c, nil
-		}
+func (dao Dao) FindCategoryByName(categoryName string) (*model.Category, error) {
+	stmt := table.Category.SELECT(
+		table.Category.AllColumns,
+	).WHERE(
+		table.Category.Name.EQ(postgres.String(categoryName)),
+	).LIMIT(1)
+
+	var dest model.Category
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
 	}
-	return models.Category{}, errors.New("category not found")
+
+	return &dest, nil
 }
 
-func ListCategories() ([]models.Category, error) {
-	return cats, nil
-}
+func (dao Dao) ListCategories() (*[]model.Category, error) {
+	stmt := table.Category.SELECT(
+		table.Category.AllColumns,
+	)
 
-func FindCategoryById(categoryId int) (models.Category, error) {
-	for _, c := range cats {
-		if c.Id == categoryId {
-			return c, nil
-		}
+	var dest []model.Category
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
 	}
-	return models.Category{}, errors.New("category not found")
+
+	return &dest, nil
 }
 
-func CreateCategory(newCat models.Category) (models.Category, error) {
-	cats = append(cats, newCat)
-	return newCat, nil
-}
+func (dao Dao) FindCategoryById(categoryId int32) (*model.Category, error) {
+	stmt := table.Category.SELECT(
+		table.Category.AllColumns,
+	).WHERE(
+		table.Category.ID.EQ(postgres.Int32(categoryId)),
+	).LIMIT(1)
 
-func GetCategoryThreads(cat *models.Category) ([]models.Thread, error) {
-	var threadList []models.Thread
-	for _, t := range threads {
-		if t.CategoryId == cat.Id {
-			threadList = append(threadList, t)
-		}
+	var dest model.Category
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
 	}
-	return threadList, nil
+
+	return &dest, nil
+}
+
+func (dao Dao) CreateCategory(newCat *model.Category) (*model.Category, error) {
+	newCat.CreatedAt = time.Now()
+	stmt := table.Category.INSERT(
+		table.Category.Name, table.Category.ParentID, table.Category.Description,
+		table.Category.ImageID, table.Category.CreatorUserID, table.Category.CreatedAt,
+	).MODEL(newCat)
+
+	var dest model.Category
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &dest, nil
+}
+
+func (dao Dao) GetCategoryThreads(cat *model.Category) (*[]model.Thread, error) {
+	stmt := table.Thread.SELECT(
+		table.Thread.AllColumns,
+	).WHERE(
+		table.Thread.CategoryID.EQ(postgres.Int32(cat.ID)),
+	)
+
+	var dest []model.Thread
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &dest, nil
 }

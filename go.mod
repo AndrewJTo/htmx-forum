@@ -10,6 +10,14 @@ require (
 )
 
 require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/go-jet/jet/v2 v2.11.1 // indirect
+	github.com/lib/pq v1.10.9 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/stretchr/testify v1.9.0 // indirect
+)
+
+require (
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
@@ -25,6 +33,7 @@ require (
 	github.com/go-session/gin-session v3.1.0+incompatible // indirect
 	github.com/go-session/session v3.1.2+incompatible // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
+	github.com/golang-migrate/migrate v3.5.4+incompatible
 	github.com/golang-migrate/migrate/v4 v4.17.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/context v1.1.2 // indirect

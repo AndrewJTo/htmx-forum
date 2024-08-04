@@ -1,32 +1,63 @@
 package daos
 
 import (
-	"errors"
+	"time"
 
-	"github.com/AndrewJTo/htmx-forum/models"
+	"github.com/AndrewJTo/htmx-forum/.gen/andrew/public/model"
+	"github.com/AndrewJTo/htmx-forum/.gen/andrew/public/table"
+	"github.com/go-jet/jet/v2/postgres"
 )
 
-func FindThreadById(threadId int) (models.Thread, error) {
-	for _, t := range threads {
-		if t.Id == threadId {
-			return t, nil
-		}
+func (dao Dao) FindThreadById(threadId int32) (*model.Thread, error) {
+	stmt := table.Thread.SELECT(
+		table.Thread.AllColumns,
+	).WHERE(
+		table.Thread.ID.EQ(postgres.Int32(threadId)),
+	).LIMIT(1)
+
+	var dest model.Thread
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
 	}
-	return models.Thread{}, errors.New("category not found")
+
+	return &dest, nil
 }
 
-func CreateThread(newThread models.Thread) (models.Thread, error) {
-	threads = append(threads, newThread)
+func (dao Dao) CreateThread(newThread model.Thread) (*model.Thread, error) {
+	newThread.CreatedAt = time.Now()
+	stmt := table.Thread.INSERT(
+		table.Thread.Name, table.Thread.CategoryID, table.Thread.CreatorUserID,
+		table.Thread.CreatedAt,
+	).MODEL(newThread)
 
-	return newThread, nil
+	var dest model.Thread
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &dest, nil
 }
 
-func FindThreadPosts(thread *models.Thread) ([]models.Post, error) {
-	var postsList []models.Post
-	for _, p := range posts {
-		if p.ThreadId == thread.Id {
-			postsList = append(postsList, p)
-		}
+func (dao Dao) FindThreadPosts(thread *model.Thread) (*[]model.Post, error) {
+	stmt := table.Post.SELECT(
+		table.Post.AllColumns,
+	).WHERE(
+		table.Post.ThreadID.EQ(postgres.Int32(thread.ID)),
+	)
+
+	var dest []model.Post
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
 	}
-	return postsList, nil
+
+	return &dest, nil
 }

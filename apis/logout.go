@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func LogoutHandler(r *gin.RouterGroup) {
+func logoutHandler(r *gin.RouterGroup, env *Env) {
 	logoutRouter := r.Group("/logout")
 
 	logoutRouter.POST("/", func(c *gin.Context) {

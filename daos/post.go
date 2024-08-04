@@ -1,9 +1,27 @@
 package daos
 
-import "github.com/AndrewJTo/htmx-forum/models"
+import (
+	"time"
 
-func CreatePost(newPost models.Post) (models.Post, error) {
-	posts = append(posts, newPost)
+	"github.com/AndrewJTo/htmx-forum/.gen/andrew/public/model"
+	"github.com/AndrewJTo/htmx-forum/.gen/andrew/public/table"
+)
 
-	return newPost, nil
+func (dao Dao) CreatePost(newPost model.Post) (*model.Post, error) {
+	newPost.CreatedAt = time.Now()
+	stmt := table.Post.INSERT(
+		table.Post.ThreadID, table.Post.CreatorUserID, table.Post.ImageID,
+		table.Post.Content, table.Post.CreatedAt,
+	).MODEL(newPost)
+
+	var dest model.Post
+
+	err := stmt.Query(dao.DB, &dest)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &dest, nil
+
 }
