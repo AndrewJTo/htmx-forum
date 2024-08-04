@@ -26,12 +26,12 @@ func (dao Dao) FindThreadById(threadId int32) (*model.Thread, error) {
 	return &dest, nil
 }
 
-func (dao Dao) CreateThread(newThread model.Thread) (*model.Thread, error) {
+func (dao Dao) CreateThread(newThread *model.Thread) (*model.Thread, error) {
 	newThread.CreatedAt = time.Now()
 	stmt := table.Thread.INSERT(
 		table.Thread.Name, table.Thread.CategoryID, table.Thread.CreatorUserID,
 		table.Thread.CreatedAt,
-	).MODEL(newThread)
+	).MODEL(newThread).RETURNING(table.Thread.AllColumns)
 
 	var dest model.Thread
 

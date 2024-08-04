@@ -65,7 +65,7 @@ func (dao Dao) CreateCategory(newCat *model.Category) (*model.Category, error) {
 	stmt := table.Category.INSERT(
 		table.Category.Name, table.Category.ParentID, table.Category.Description,
 		table.Category.ImageID, table.Category.CreatorUserID, table.Category.CreatedAt,
-	).MODEL(newCat)
+	).MODEL(newCat).RETURNING(table.Category.AllColumns)
 
 	var dest model.Category
 

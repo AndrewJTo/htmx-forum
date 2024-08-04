@@ -7,12 +7,12 @@ import (
 	"github.com/AndrewJTo/htmx-forum/.gen/andrew/public/table"
 )
 
-func (dao Dao) CreatePost(newPost model.Post) (*model.Post, error) {
+func (dao Dao) CreatePost(newPost *model.Post) (*model.Post, error) {
 	newPost.CreatedAt = time.Now()
 	stmt := table.Post.INSERT(
 		table.Post.ThreadID, table.Post.CreatorUserID, table.Post.ImageID,
 		table.Post.Content, table.Post.CreatedAt,
-	).MODEL(newPost)
+	).MODEL(newPost).RETURNING(table.Post.AllColumns)
 
 	var dest model.Post
 

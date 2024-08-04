@@ -51,6 +51,7 @@ func RunServer() {
 	router := app.Group("/")
 	apis.ApisHandler(router, env)
 	router.StaticFile("/htmx.min.js.js", "../assets/htmx.min.js.js")
+	router.StaticFile("/main.css", "../style/main.css")
 
 	app.Run()
 }

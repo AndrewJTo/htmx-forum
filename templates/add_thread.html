@@ -1,0 +1,10 @@
+<td>
+  <input name="thread-name" type="text" />
+</td>
+<td>
+  <input name="thread-content" type="text" />
+</td>
+<td>
+  <button hx-post="/category/{{ .CategoryId }}/thread" hx-target="main" hx-include="closest tr">Add</button>
+  <button hx-get="/category/{{ .CategoryId }}" hx-target="body">Cancel</button>
+</td>

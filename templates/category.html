@@ -1,0 +1,19 @@
+{{ template "top" .user }}
+{{ $category := .category }}
+  <h1>Category: {{ .category.Name }}</h1>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Options</th>
+      </tr>
+      {{ range $thread := .threads}}
+        <tr>
+          <td>{{ $thread.Name }}</td>
+          <td><button hx-get="/category/{{ $category.ID }}/thread/{{$thread.ID}}" hx-target="main" hx-push-url="true">View</button></td> 
+        </tr>
+      {{ end }}
+      <tr id="add-thread">
+        <td colspan="3"><button hx-get="/category/{{$category.ID}}/thread/new" hx-target="#add-thread">Add thread</button></td>
+      </tr>
+    </table>
+{{ template "bottom" }}

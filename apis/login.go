@@ -13,7 +13,7 @@ func loginHandler(r *gin.RouterGroup, env *Env) {
 	registerRouter := r.Group("/login")
 
 	registerRouter.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "login.tmpl", gin.H{
+		c.HTML(http.StatusOK, "login.html", gin.H{
 			"message": "Please login",
 		})
 	})

@@ -25,6 +25,6 @@ func mainPageHandler(r *gin.RouterGroup, env *Env) {
 			c.String(http.StatusInternalServerError, "Could not list categories")
 			return
 		}
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{"user": user, "categories": cats})
+		c.HTML(http.StatusOK, "index.html", gin.H{"user": user, "categories": cats})
 	})
 }

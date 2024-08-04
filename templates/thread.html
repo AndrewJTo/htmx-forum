@@ -1,0 +1,21 @@
+<body>
+  <h1>Thread: {{ .thread.Name }}</h1>
+    <table>
+      <tr>
+        <th>Text</th>
+        <th>User</th>
+        <th>DateTime</th>
+      </tr>
+      {{ range .posts}}
+        <tr>
+          <td>{{ .Content }}</td>
+          <td>{{ .CreatorUserID }}</td>
+          <td>{{ .CreatedAt.Format "02 Jan 2006 15:04:05 UTC" }}</td>
+        </tr>
+      {{ end }}
+
+      <tr id="add-post">
+        <td colspan="3"><button hx-get="/category/{{.categoryId}}/thread/{{.thread.ID}}/post/new" hx-target="#add-post">Add post</button></td>
+      </tr>
+    </table>
+</body>

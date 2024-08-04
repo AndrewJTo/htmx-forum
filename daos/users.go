@@ -51,11 +51,14 @@ func (dao Dao) GetUserPassword(user *model.Users) error {
 		table.Users.ID.EQ(postgres.Int32(user.ID)),
 	).LIMIT(1)
 
-	err := stmt.Query(dao.DB, user)
+	var dest model.Users
+	err := stmt.Query(dao.DB, &dest)
 
 	if err != nil {
 		return err
 	}
+
+	user.Password = dest.Password
 
 	return nil
 }

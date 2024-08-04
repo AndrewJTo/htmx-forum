@@ -13,7 +13,7 @@ func registerHandler(r *gin.RouterGroup, env *Env) {
 	registerRouter := r.Group("/register")
 
 	registerRouter.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "register.tmpl", gin.H{})
+		c.HTML(http.StatusOK, "register.html", gin.H{})
 	})
 	registerRouter.POST("/", func(c *gin.Context) {
 		c.Request.ParseForm()
@@ -36,7 +36,7 @@ func registerHandler(r *gin.RouterGroup, env *Env) {
 			Password:  string(hashedPassword),
 		})
 		c.Header("HX-Push-Url", "/login")
-		c.HTML(http.StatusOK, "login.tmpl", gin.H{
+		c.HTML(http.StatusOK, "login.html", gin.H{
 			"message": "Account created: " + email + " Pass: " + string(hashedPassword),
 		})
 	})

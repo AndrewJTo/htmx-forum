@@ -10,6 +10,7 @@ import (
 func authRequired(c *gin.Context) {
 	session := sessions.Default(c)
 	user := session.Get(("user"))
+	c.Set("user", user)
 	if user == nil {
 		c.String(http.StatusUnauthorized, "You must be logged in.")
 		return

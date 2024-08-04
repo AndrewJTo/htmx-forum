@@ -11,6 +11,8 @@ import (
 func categoryHandler(r *gin.RouterGroup, env *Env) {
 	categoryRouter := r.Group("/category")
 
+	threadHandlers(categoryRouter, env)
+
 	categoryRouter.POST("/", authRequired, func(c *gin.Context) {
 		c.Request.ParseForm()
 		categoryName := c.Request.Form.Get("category-name")
@@ -35,7 +37,7 @@ func categoryHandler(r *gin.RouterGroup, env *Env) {
 	})
 
 	categoryRouter.GET("/new", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "add_category.tmpl", gin.H{})
+		c.HTML(http.StatusOK, "add_category.html", gin.H{})
 	})
 
 	categoryRouter.GET("/:category_id", func(c *gin.Context) {
@@ -58,7 +60,7 @@ func categoryHandler(r *gin.RouterGroup, env *Env) {
 			return
 		}
 
-		c.HTML(http.StatusOK, "category.tmpl", gin.H{
+		c.HTML(http.StatusOK, "category.html", gin.H{
 			"category": &cat, "threads": threads,
 		})
 	})

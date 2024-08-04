@@ -13,7 +13,6 @@ type Env struct {
 
 func ApisHandler(r *gin.RouterGroup, env *Env) {
 	registerHandler(r, env)
-	threadHandlers(r, env)
 	categoryHandler(r, env)
 	loginHandler(r, env)
 	logoutHandler(r, env)

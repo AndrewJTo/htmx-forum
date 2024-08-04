@@ -1,0 +1,24 @@
+{{ define "top" }}
+<html>
+  <head>
+    <script src="/htmx.min.js.js"></script>
+    <link rel="stylesheet" href="/main.css">
+  </head>
+  <body>
+    <h1>Forum</h1>
+      <div id="login-options">
+      {{ if not . }}
+        <p><a href="/register" hx-get="register" hx-target="#login-options" hx-push-url="true">Register</a></p>
+        <p><a href="login" hx-get="login" hx-target="#login-options" hx-push-url="true">Login</a></p>
+      {{ else }}
+        <p>{{ .Name }} (<a href="/logout" hx-post="logout" hx-target="body">logout</a>)</p>
+      {{ end }}
+      </div>
+    <main>
+{{ end }}
+
+{{ define "bottom" }}
+    </main>
+  </body>
+</html>
+{{ end }}
